@@ -20,6 +20,9 @@ const commands = [
     )
     .addSubcommand((sub) =>
       sub.setName('finish').setDescription('Finish this vote.'),
+    )
+    .addSubcommand((sub) =>
+      sub.setName('help').setDescription('About this function.'),
     ),
   new SlashCommandBuilder()
     .setName('annotation')
