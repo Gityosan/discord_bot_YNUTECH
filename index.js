@@ -18,6 +18,7 @@ const microcms = createClient({
 });
 
 const createOgImage = (baseImageUrl, author, title) => {
+  // console.log(title);
   const ogImageUrl = `${baseImageUrl}?w=300&txt64=${base64url(
     author,
   )}&txt-pad=20&txt-color=00695C&txt-size=12&txt-align=left,top&blend64=${base64url(
@@ -93,9 +94,9 @@ client.on('interactionCreate', async (interaction) => {
             const against = message.reactions.cache.get('🤚');
             await interaction.channel.send(
               '投票の結果\n賛成' +
-                agree.count +
+                (agree.count - 1) +
                 '票\n反対' +
-                against.count +
+                (against.count - 1) +
                 '票\nでした。',
             );
           });
@@ -123,12 +124,13 @@ client.on('interactionCreate', async (interaction) => {
     }
   } else if (commandName === 'annotation') {
     let content = interaction.options.getString('content');
-    if (content.length >= 45) {
-      content = content.substring(0, 44) + '..';
+    if (content.length >= 60) {
+      content = content.substring(0, 59) + '..';
     }
     const color = interaction.options.getString('color');
+    const imageURL = color || image[0][1];
     const imageString = createOgImage(
-      imageBaseUrl + color || imageBaseUrl + image[0][1],
+      imageBaseUrl + imageURL,
       interaction.user.username,
       content,
     );
